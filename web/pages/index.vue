@@ -67,7 +67,7 @@ export default {
   async fetch() {
     this.fetching = true
     
-    this.products = await this.$axios.$get('http://dev.carlomigueldy.io/products.json')
+    this.products = await this.$axios.$get(window.location.href + 'products.json')
 
     await setTimeout(async () => {
       this.fetching = false
