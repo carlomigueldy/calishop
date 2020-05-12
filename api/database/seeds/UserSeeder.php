@@ -17,8 +17,6 @@ class UserSeeder extends Seeder
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
         
-        User::truncate();
-        
         $admin = Role::create(['name' => 'admin']);
         $seller = Role::create(['name' => 'seller']);
         $buyer = Role::create(['name' => 'buyer']);
@@ -27,14 +25,17 @@ class UserSeeder extends Seeder
 
         // create admin user
         $user = User::create($this->users()[0]);
+        $user->cart()->create();
         $user->assignRole($admin);
 
         // create seller user
         $user = User::create($this->users()[1]);
+        $user->cart()->create();
         $user->assignRole($seller);
 
         // create buyer user
         $user = User::create($this->users()[2]);
+        $user->cart()->create();
         $user->assignRole($buyer);
     }
 
