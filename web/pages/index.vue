@@ -67,7 +67,8 @@ export default {
   async created() {
     this.fetching = true
     
-    this.products = await this.$axios.$get(window.location.href + 'products.json')
+    this.products = await this.$axios.$get('/api/products')
+    // this.products = await this.$axios.$get(window.location.href + 'products.json')
 
     await setTimeout(async () => {
       this.fetching = false

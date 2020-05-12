@@ -96,7 +96,7 @@ export default {
         
         this.loggingIn = false
         
-        await this.$router.push({ name: 'dashboard' })
+        // await this.$router.push({ name: 'dashboard' })
       } catch (error) {
         console.log(error)
         this.loggingIn = false
