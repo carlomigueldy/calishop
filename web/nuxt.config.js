@@ -97,7 +97,7 @@ export default {
       login: '/',
       logout: '/',
       callback: '/',
-      home: '/dashboard',
+      home: false,
     }
   },
 

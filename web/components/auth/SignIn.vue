@@ -6,7 +6,7 @@
           <v-img 
             height="75"
             width="75"
-            src="https://logo.clearbit.com/github.com"
+            src="https://logo.clearbit.com/aws.com"
           ></v-img>
         </div>
       </v-row>
@@ -16,7 +16,7 @@
           Welcome to
         </div>
         <div class="display-2">
-          Nuxt Admin
+          CaliShop
         </div>
       </div>
       
