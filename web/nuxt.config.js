@@ -85,8 +85,8 @@ export default {
       local: {
         endpoints: {
           login: { url: '/api/auth/login', method: 'post', propertyName: 'access_token' },
-          logout: { url: '/api/auth/logout', method: 'get' },
-          user: { url: '/api/auth/user', method: 'get', propertyName: false }
+          logout: { url: '/api/auth/logout', method: 'post' },
+          user: { url: '/api/auth/user', method: 'post', propertyName: false }
         },
         tokenType: 'bearer',
         autoFetchUser: true
