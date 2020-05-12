@@ -64,7 +64,7 @@ export default {
     products: []
   }),
 
-  async fetch() {
+  async created() {
     this.fetching = true
     
     this.products = await this.$axios.$get(window.location.href + 'products.json')
