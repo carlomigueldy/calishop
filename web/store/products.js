@@ -12,6 +12,9 @@ export const getters = {
 }
 
 export const mutations = {
+  SET_PRODUCTS: (state, payload) => 
+    state.products = payload,
+  
   SET_PRODUCT: (state, payload) => 
     state.product = payload,
 
@@ -35,7 +38,7 @@ export const actions = {
     try {
       const data = await this.$axios.$get('/api/products')
 
-      commit('SET_PRODUCT', data)
+      commit('SET_PRODUCTS', data)
     } catch (error) {
       console.log(error)
       return await this.$helpers.notify({

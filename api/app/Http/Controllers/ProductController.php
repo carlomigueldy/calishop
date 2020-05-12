@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -13,7 +14,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return response()->json(true, 200);
+        $products = Product::get()->filter(function ($product) {
+            $product['img'] = $product->media->first()->getUrl();
+            
+            return $product;
+        });
+        
+        return response()->json($products, 200);
     }
 
     /**
@@ -35,7 +42,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        return response()->json(true, 200);
+        return response()->json(Product::findOrFail($id), 200);
     }
 
     /**
@@ -58,6 +65,6 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        return response()->json(true, 200);
+        return response()->json(Product::findOrFail($id)->delete(), 200);
     }
 }
