@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->longText('description')->nullable();
             $table->unsignedFloat('price', 8, 2)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
