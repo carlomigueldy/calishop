@@ -2,6 +2,7 @@
   <v-hover v-slot:default="{ hover }">
     <v-card 
       min-height="15rem"
+      height="100%"
       :elevation="hover ? '10' : '3'">
       <v-img 
         :src="src" 
@@ -12,21 +13,32 @@
           type: 'info',
           message: 'v-card clicked'
         })">
+        <template v-slot:placeholder>
+          <v-row
+            class="fill-height ma-0 black"
+            align="center"
+            justify="center">
+            <v-progress-circular 
+              indeterminate 
+              color="grey lighten-5"
+            ></v-progress-circular>
+          </v-row>
+        </template>
+        <v-card-title>
+          <v-chip color="primary" dark label>
+            {{ moneyFormat(price) }}
+          </v-chip>
+        </v-card-title>
       </v-img>
       <v-card-title>
-        {{ name }}
-        <v-spacer />
-        <v-btn @click="$helpers.notify({
-            type: 'info',
-            message: 'v-btn clicked'
-          })" icon>
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
+        <v-list-item-title>{{ name }}</v-list-item-title>
       </v-card-title>
-      <v-card-subtitle v-text="subtitle"></v-card-subtitle>
+      <v-card-subtitle>
+        <v-list-item-subtitle>{{ subtitle }}</v-list-item-subtitle>
+      </v-card-subtitle>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text>Add to Cart</v-btn>
+        <v-btn color="primary" text>Add to Cart</v-btn>
       </v-card-actions>
     </v-card>
   </v-hover>
@@ -48,6 +60,11 @@ export default {
     subtitle: {
       type: String,
       default: () => 'A small description for the product.'
+    },
+
+    price: {
+      type: Number,
+      default: () => 0
     }
   }
 }

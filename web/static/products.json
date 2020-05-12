@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "img": "https://www.rogueeurope.eu/media/catalog/product/cache/5/image/1500x1500/9df78eab33525d08d6e5fb8d27136e95/r/o/rogue-wood-rings-th_1.jpg",
+    "name": "ROGUE Wooden Gymanstic Rings",
+    "small_description": "The rings, also known as steady rings or still rings (in contrast to flying rings)",
+    "price": "30.00"
+  },
+  {
+    "id": 2,
+    "img": "https://www.mrgymnastic.co.uk/wp-content/uploads/2018/03/25cm.jpg",
+    "name": "Simple Wooden Paralletes",
+    "small_description": "Parallettes are small gymnastics devices",
+    "price": "45.00"
+  },
+  {
+    "id": 3,
+    "img": "https://i.pinimg.com/originals/8d/58/9e/8d589eba58f05d9f96d4a5fef63e14c3.jpg",
+    "name": "THENX Wooden Paralletes",
+    "small_description": "Parallettes are small gymnastics devices",
+    "price": "65.00"
+  },
+  {
+    "id": 4,
+    "img": "https://improveyourgrip.net/wp-content/uploads/2016/12/gsc-gym-chalk.png",
+    "name": "Magnesium Chalk",
+    "small_description": "Parallettes are small gymnastics devices",
+    "price": "5.00"
+  }
+]
