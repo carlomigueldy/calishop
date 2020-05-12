@@ -1,0 +1,31 @@
+/* NAME: Page */
+@media screen and (min-width: 1008px) {
+
+  /* during entering and leaving : */
+  .page-enter-active, .page-leave-active {
+    position:absolute;
+    max-width:725.328px; /*make sur our content keep it's original width*/
+    transition: all .2s ease;
+  }
+
+  /* entering start */  
+  .page-enter {
+    left: -100%;
+  }
+
+  /* entering end */
+  .page-enter-to {
+    left: 0;
+  }
+
+  /* leaving start */
+  .page-leave {
+    opacity: 1;
+  }
+
+  /* leaving end */
+  .page-leave-to {
+    opacity: 0;
+  }
+
+}
