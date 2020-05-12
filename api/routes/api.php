@@ -16,11 +16,26 @@ use Illuminate\Support\Facades\Route;
 
 // Authentication
 Route::group([
-    'middleware' => 'api',
     'prefix' => 'auth'
 ], function () {
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('user', 'AuthController@user');
+});
+
+Route::group([
+    'middleware' => 'auth:api'
+], function () {
+
+    // Shopping Cart
+    Route::get('shopping-cart/add/{productId}/{quantity}', 'ShoppingCartController@add');
+    Route::apiResource('shopping-cart', 'ShoppingCartController')->except([
+        'index',
+        'show',
+        'store'
+    ]);
+
+    // Products
+    Route::apiResource('products', 'ProductController');
 });
