@@ -1,7 +1,7 @@
 {
-  "name": "dynuxtify",
+  "name": "calishop",
   "version": "1.0.0",
-  "description": "Nuxt js + Vuetify admin dashboard boilerplate design inspired by Google&#39;s Firebase.",
+  "description": "An online shop for selling Calisthenics gear and equipments.",
   "author": "Carlo Miguel Dy",
   "private": true,
   "scripts": {
