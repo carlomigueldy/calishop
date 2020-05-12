@@ -72,8 +72,8 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    // baseURL: 'https://cors-anywhere.herokuapp.com/https://childcare-management-system.herokuapp.com/'
-    baseURL: 'http://api.dynuxtify.io/',
+    // baseURL: 'https://cors-anywhere.herokuapp.com/https://calishop.herokuapp.com/'
+    baseURL: 'http://api.calishop.io/',
     // baseURL: 'http://api.hefesto.site/',
   },
   /*
@@ -88,7 +88,7 @@ export default {
           logout: { url: '/api/auth/logout', method: 'get' },
           user: { url: '/api/auth/user', method: 'get', propertyName: false }
         },
-        tokenType: 'Bearer',
+        tokenType: 'bearer',
         autoFetchUser: true
       }
     },
@@ -118,14 +118,7 @@ export default {
       dark: false,
       themes: {
         light: {
-          primary: colors.red.darken4,
-          // primary: colors.deepPurple.darken2,
-          accent: colors.lightBlue.darken4,
-          secondary: colors.grey.darken3,
-          info: colors.blue,
-          warning: colors.orange.darken1,
-          error: colors.red.accent2,
-          success: colors.green
+          primary: colors.teal.darken2,
         },
         dark: {
           primary: colors.red.darken4,
