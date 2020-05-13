@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Resources\ProductCollection;
+use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,5 +39,13 @@ Route::group([
     ]);
 
     // Products
-    Route::apiResource('products', 'ProductController');
+    Route::apiResource('products', 'ProductController')->except([
+        'index'
+    ]);
+});
+
+Route::get('products', 'ProductController@index')->name('products.index');
+
+Route::get('test', function () {
+    return new ProductCollection(Product::paginate(12));
 });

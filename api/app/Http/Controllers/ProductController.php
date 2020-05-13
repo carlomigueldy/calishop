@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductCollection;
 use App\Product;
 use Illuminate\Http\Request;
 
@@ -14,13 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::get()->filter(function ($product) {
-            $product['img'] = $product->media->first()->getUrl();
-            
-            return $product;
-        });
-        
-        return response()->json($products, 200);
+        return new ProductCollection(Product::paginate(12));
     }
 
     /**
