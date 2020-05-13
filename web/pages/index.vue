@@ -30,7 +30,7 @@
           md="3"
           sm="12"
           cols="12"
-          v-for="(item, i) in products"
+          v-for="(item, i) in products.data"
           :key="i">
           <product
             :src="item.img"
@@ -65,14 +65,7 @@ export default {
   }),
 
   async created() {
-    this.fetching = true
-    
-    this.products = await this.$axios.$get('/api/products')
-    // this.products = await this.$axios.$get(window.location.href + 'products.json')
-
-    await setTimeout(async () => {
-      this.fetching = false
-    }, 1500)
+    await this.fetchProducts()
   },
 
   components: {
@@ -91,7 +84,26 @@ export default {
         type: "info",
         message: "Search results ready"
       })
-    }
+    },
+
+    async fetchProducts (endpoint = '/api/products') {
+      try {
+        this.fetching = true
+    
+        this.products = await this.$axios.$get(endpoint)
+        // this.products = await this.$axios.$get(window.location.href + 'products.json')
+
+        await setTimeout(async () => {
+          this.fetching = false
+        }, 1500)
+      } catch (error) {
+        console.log(error)
+        return await this.$helpers.notify({
+          type: "error",
+          message: "There is something wrong. It's the system not you."
+        })
+      }
+    },
   }
 }
 </script>
