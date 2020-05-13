@@ -8,20 +8,59 @@
       </v-btn>
       <span v-if="!$auth.loggedIn">
         <v-menu 
+          v-model="loginMenu"
           :close-on-content-click="false"
           offset-y>
           <template v-slot:activator="{ on }">
             <v-btn title="Login to CaliShop" v-on="on" icon>
-              <v-icon>mdi-login</v-icon>
+              <v-icon>mdi-account-circle</v-icon>
             </v-btn>
           </template>
           <v-card min-width="400">
-            <SignIn />
+            <v-card-title>
+              <v-spacer></v-spacer>
+              <v-btn @click="loginMenu = !loginMenu" icon>
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </v-card-title>
+            <SignIn @loggedIn="loginMenu = !loginMenu" />
           </v-card>
         </v-menu>
       </span>
       <span v-else>
-        Hello there user
+        <v-menu 
+          :close-on-content-click="false"
+          offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn title="Account" v-on="on" icon>
+              <v-avatar>
+                <v-img src="/aws.png"></v-img>
+              </v-avatar>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item>
+              <v-list-item-action>
+                <v-icon>mdi-cog</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>
+                  Settings
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click="$auth.logout().then(() => loginMenu = false)">
+              <v-list-item-action>
+                <v-icon>mdi-logout</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>
+                  Logout
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </span>
     </v-app-bar>
 
@@ -54,6 +93,10 @@ export default {
         href: "https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap"
       }
     ]
+  }),
+
+  data: () => ({
+    loginMenu: false
   })
 }
 </script>

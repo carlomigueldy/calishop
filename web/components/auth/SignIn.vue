@@ -96,6 +96,7 @@ export default {
         
         this.loggingIn = false
         
+        await this.$emit('loggedIn', true)
         // await this.$router.push({ name: 'dashboard' })
       } catch (error) {
         console.log(error)
