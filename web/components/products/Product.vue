@@ -15,7 +15,7 @@
         })">
         <template v-slot:placeholder>
           <v-row
-            class="fill-height ma-0 black"
+            class="fill-height ma-0 primary"
             align="center"
             justify="center">
             <v-progress-circular 

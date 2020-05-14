@@ -1,9 +1,17 @@
 <template>
   <v-app app>
     <v-app-bar app>
-      <v-toolbar-title class="cursive">CaliShop</v-toolbar-title>
+      <v-toolbar-title 
+        @click="$router.push({ name: 'index' })" 
+        class="cursive"
+        style="cursor: pointer">
+        CaliShop
+      </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn title="Your shopping cart" icon>
+      <v-btn 
+        :to="{ name: 'cart' }" 
+        title="Your shopping cart" 
+        icon>
         <v-icon>mdi-cart</v-icon>
       </v-btn>
       <span v-if="!$auth.loggedIn">
@@ -64,7 +72,7 @@
       </span>
     </v-app-bar>
 
-    <v-content app>
+    <v-content>
       <nuxt />
     </v-content>
 
