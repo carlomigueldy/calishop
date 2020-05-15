@@ -1,11 +1,11 @@
 export class Product {
-  constructor (
+  constructor ({
     name = null,
     category = null,
     small_description = null,
     description = null,
     price = 0
-  ) {
+  } = {}) {
     this.name = name
     this.category = category
     this.small_description = small_description

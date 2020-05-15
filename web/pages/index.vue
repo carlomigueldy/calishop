@@ -32,12 +32,7 @@
           cols="12"
           v-for="(item, i) in products.data"
           :key="i">
-          <product
-            :src="item.img"
-            :name="item.name"
-            :subtitle="item.small_description"
-            :price="item.price"
-          ></product>
+          <Product :item="item" />
         </v-col>
         <v-pagination
           v-model="page"

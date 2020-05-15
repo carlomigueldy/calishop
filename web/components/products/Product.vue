@@ -5,14 +5,11 @@
       height="100%"
       :elevation="hover ? '10' : '3'">
       <v-img 
-        :src="src" 
+        :src="item.img || '/aws.png'" 
         :aspect-ratio="16/9"
         height="200"
         style="cursor: pointer"
-        @click="$helpers.notify({
-          type: 'info',
-          message: 'v-card clicked'
-        })">
+        @click="$store.dispatch('cart/add', item)">
         <template v-slot:placeholder>
           <v-row
             class="fill-height ma-0 primary"
@@ -26,19 +23,24 @@
         </template>
         <v-card-title>
           <v-chip color="primary" dark label>
-            {{ moneyFormat(price) }}
+            {{ moneyFormat(item.price) }}
           </v-chip>
         </v-card-title>
       </v-img>
       <v-card-title>
-        <v-list-item-title>{{ name }}</v-list-item-title>
+        <v-list-item-title>{{ item.name || 'Not specified' }}</v-list-item-title>
       </v-card-title>
       <v-card-subtitle>
-        <v-list-item-subtitle>{{ subtitle }}</v-list-item-subtitle>
+        <v-list-item-subtitle>{{ item.small_description || 'No description available' }}</v-list-item-subtitle>
       </v-card-subtitle>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" text>Add to Cart</v-btn>
+        <v-btn 
+          text
+          color="primary" 
+          @click="$store.dispatch('cart/add', item)">
+          Add to Cart
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-hover>
@@ -47,6 +49,11 @@
 <script>
 export default {
   props: {
+    item: {
+      type: Object,
+      required: true
+    },
+    
     src: {
       type: String,
       default: () => '/aws.png'

@@ -1,3 +1,4 @@
+import { CartProduct, create } from '../models/CartProduct'
 import { getField, updateField } from 'vuex-map-fields'
 
 export const state = () => ({
@@ -64,21 +65,39 @@ export const actions = {
   },
 
   /**
-   * Add new data.
+   * Add item to shopping cart.
    * 
    * @param { Object } context 
    * @param { Object } payload 
    */
-  async create({ state, commit, dispatch }) {
+  async add({ state, commit, dispatch }, payload) {
     try {
-      await this.$axios.$post('/api/cart', state.form)
+      const item = {
+        product_id: payload.id,
+        price: payload.price
+      }
+      const data = create(item)
       
-      commit('CLEAR_FORM')
+      // else if user is authenticated, save to DB
+      if ( this.$auth.loggedIn ) {
+        addToCart({
+          strategy: 'api',
+          data
+        })
+      }
+
+      // if not authenticated, save to local storage
+      else {
+        addToCart({
+          strategy: 'local',
+          data
+        })
+      }
+      
       await this.$helpers.notify({
         type: 'success',
-        message: 'A new cart has been added.',
+        message: 'An item has been added to cart.',
       })
-      dispatch('fetchAll')
     } catch (error) {
       console.log(error)
       return await this.$helpers.notify({
@@ -184,4 +203,30 @@ export const actions = {
       })
     }
   },
+}
+
+/**
+ * Adds an item to the shopping cart.
+ * 
+ * @param { Object } payload 
+ */
+const addToCart = async (payload) => {
+  // save the items into the shopping cart of a user in DB
+  if (payload.strategy === 'api') {
+    const res = await $nuxt.$axios.get(`/api/cart/add/${payload.data.product_id}/${payload.data.quantity}`)
+    console.log('CartProduct response', res)
+  }
+  
+  // only save the items in shopping cart locally
+  else if (payload.strategy === 'local') {
+    let cartProducts = JSON.parse(localStorage.getItem('cart_products'))
+    if ( !cartProducts ) {
+      localStorage.setItem('cart_products', JSON.stringify([]))
+      cartProducts = JSON.parse(localStorage.getItem('cart_products'))
+    }
+
+    cartProducts.push(payload.data)    
+    localStorage.setItem('cart_products', JSON.stringify(cartProducts))
+    console.log('CartProduct added locally', cartProducts)
+  }
 }

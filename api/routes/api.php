@@ -42,6 +42,8 @@ Route::group([
     Route::apiResource('products', 'ProductController')->except([
         'index'
     ]);
+
+    Route::get('cart/add/{productId}/{quantity}', 'ShoppingCartController@add');
 });
 
 Route::get('products', 'ProductController@index')->name('products.index');
