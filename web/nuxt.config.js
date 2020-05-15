@@ -72,8 +72,8 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: 'https://cors-anywhere.herokuapp.com/https://calishop.herokuapp.com/'
-    // baseURL: 'http://api.calishop.io/',
+    // baseURL: 'https://cors-anywhere.herokuapp.com/https://calishop.herokuapp.com/'
+    baseURL: 'http://api.calishop.io/',
   },
   /*
   ** Auth module configuration
