@@ -21,4 +21,14 @@ class Product extends Model implements HasMedia
         'updated_at',
         'deleted_at'
     ];
+
+    /**
+     * A product may belongs to many shopping carts.
+     * 
+     * @return HasMany
+     */
+    public function cart_products()
+    {
+        return $this->hasMany(CartProduct::class);
+    }
 }
