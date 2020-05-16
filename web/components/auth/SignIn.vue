@@ -72,6 +72,8 @@
 </template>
 
 <script>
+import { getCartProducts } from '../../models/CartProduct'
+
 export default {
   data: () => ({
     loggingIn: false,
@@ -89,7 +91,7 @@ export default {
           data: this.credentials
         })
 
-        this.$store.dispatch('alerts/execute', {
+        await this.$helpers.notify({
           type: 'success',
           message: 'You have logged in.',
         })
@@ -97,7 +99,10 @@ export default {
         this.loggingIn = false
         
         await this.$emit('loggedIn', true)
-        // await this.$router.push({ name: 'dashboard' })
+
+        if ( getCartProducts().length  > 0 ) {
+          // sync the cart 
+        }
       } catch (error) {
         console.log(error)
         this.loggingIn = false
