@@ -14,7 +14,7 @@ class CreateCartProductsTable extends Migration
     public function up()
     {
         Schema::create('cart_products', function (Blueprint $table) {
-            $table->id();
+            // $table->id();
             $table->foreignId('cart_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->unsignedInteger('quantity')->default(1);
@@ -22,6 +22,10 @@ class CreateCartProductsTable extends Migration
             $table->text('notes')->nullable();
             $table->timestamps();
             $table->softDeletes();
+        });
+
+        Schema::table('cart_products', function (Blueprint $table) {
+            $table->primary(['cart_id', 'product_id']);
         });
     }
 
