@@ -3,7 +3,7 @@ import { getField, updateField } from 'vuex-map-fields'
 
 export const state = () => ({
   cart: {},
-  products: []
+  cart_products: []
 })
 
 export const getters = {
@@ -11,8 +11,11 @@ export const getters = {
 }
 
 export const mutations = {
-  SET_CART: (state, payload) => 
+  SET_CART: (state, payload) =>
     state.cart = payload,
+  
+  SET_CART_PRODUCTS: (state, payload) => 
+    state.cart_products = payload,
 
   REMOVE_CART: (state, payload) => {
     const index = state.cart.findIndex(d => d.id == payload)
@@ -32,9 +35,11 @@ export const actions = {
    */
   async fetchAll({ commit }) {
     try {
-      const data = await this.$axios.$get('/api/cart')
+      const cart = this.$auth.user?.cart
+      const cartProducts = this.$auth.user?.cart_products
 
-      commit('SET_CART', data)
+      commit('SET_CART', cart)
+      commit('SET_CART_PRODUCTS', cartProducts)
     } catch (error) {
       console.log(error)
       return await this.$helpers.notify({
