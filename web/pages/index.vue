@@ -28,16 +28,11 @@
         <v-col 
           lg="3"
           md="3"
-          sm="12"
+          sm="6"
           cols="12"
           v-for="(item, i) in products.data"
           :key="i">
-          <product
-            :src="item.img"
-            :name="item.name"
-            :subtitle="item.small_description"
-            :price="item.price"
-          ></product>
+          <Product :item="item" />
         </v-col>
         <v-pagination
           v-model="page"
@@ -71,7 +66,10 @@ export default {
   }),
 
   async created() {
-    await this.fetchProducts()
+    await Promise.all([
+      this.fetchProducts(),
+      this.$store.dispatch('cart/fetchAll')
+    ])
   },
 
   components: {

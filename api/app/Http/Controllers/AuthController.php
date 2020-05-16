@@ -42,7 +42,21 @@ class AuthController extends Controller
      */
     public function user()
     {
-        return response()->json($this->guard()->user());
+        $user = auth()->user();
+
+        unset($user['roles']);
+        $roles = $user->getRoleNames()->all();
+        
+        $user['role'] = array_shift($roles);
+        $user['cart'] = $user->cart;
+        $user['cart_products'] = $user->cart->items->map(function ($data) {
+            $data['product_img'] = $data->product->media->first()->getUrl();
+            $data['product_name'] = $data->product->name;
+
+            return $data;
+        });
+        
+        return response()->json($user);
     }
 
     /**

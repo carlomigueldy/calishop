@@ -40,4 +40,18 @@ class Cart extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Sum all item price and update total amount.
+     * 
+     * @return Boolean
+     */
+    public function calculateTotalAmount()
+    {
+        return $this->update([
+            'total_amount' => array_sum(
+                $this->items->pluck('price')->all()
+            )
+        ]);
+    }
 }

@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class ShoppingCartController extends Controller
 {
+    protected $cart;
+    
+    public function __construct()
+    {
+        $this->cart = auth()->user()->cart;
+    }
+    
     /**
      * Add a new product to the shopping cart.
      *
@@ -17,11 +24,13 @@ class ShoppingCartController extends Controller
     {
         $product = Product::find($productId);
         
-        auth()->user()->cart->items()->create([
+        $this->cart->items()->create([
             'product_id' => $product->id,
             'price' => $product->price ?? 0,
             'quantity' => $quantity,
         ]);
+
+        $this->cart->calculateTotalAmount();
 
         return response()->json([
             'message' => 'Added to cart.'
@@ -42,29 +51,37 @@ class ShoppingCartController extends Controller
         if ( !isset($product) ) {
             abort(403, "Cannot find the product.");
         }
-        
-        auth()->user()->cart->items()
-            ->whereId($cartItemId)->first()->update([
+
+        // add the item into the user's shopping cart
+        $this->cart->items()->whereId($cartItemId)
+            ->first()->update([
                 'product_id' => $product->id,
                 'quantity' => $request->quantity,
                 'price' => $product->price,
             ]);
 
+        $this->cart->calculateTotalAmount();
+
         return response()->json([
             'message' => 'The cart item has been updated.'
-        ]);
+        ], 204);
     }
 
     /**
      * Remove the specified cart item ID.
      *
-     * @param  Integer  $cartItemId
+     * @param  Integer  $productId
      * @return \Illuminate\Http\Response
      */
-    public function destroy($cartItemId)
+    public function destroy($productId)
     {
-        return response()->json(
-            auth()->user()->cart->items()->find($cartItemId)->delete()
-        );
+        $deleted = $this->cart->items()
+            ->whereProductId($productId)
+            ->first()
+            ->delete();
+
+        $this->cart->calculateTotalAmount();
+        
+        return response()->json($deleted, 204);
     }
 }

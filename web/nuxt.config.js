@@ -21,7 +21,7 @@ export default {
   */
   loading: { 
     height: '3px',
-    color: colors.lightBlue.darken4,
+    color: colors.blue.darken2,
     throttle: 0,
     continuous: true,
   },
@@ -72,8 +72,8 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: 'https://cors-anywhere.herokuapp.com/https://calishop.herokuapp.com/'
-    // baseURL: 'http://api.calishop.io/',
+    // baseURL: 'https://cors-anywhere.herokuapp.com/https://calishop.herokuapp.com/'
+    baseURL: 'http://api.calishop.io/',
   },
   /*
   ** Auth module configuration
@@ -116,11 +116,8 @@ export default {
     theme: {
       dark: false,
       themes: {
-        light: {
-          primary: colors.teal.darken2,
-        },
         dark: {
-          primary: colors.red.darken4,
+          primary: colors.deepPurple.darken4,
           accent: colors.lightBlue.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,

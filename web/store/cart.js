@@ -1,8 +1,9 @@
+import { CartProduct, create } from '../models/CartProduct'
 import { getField, updateField } from 'vuex-map-fields'
 
 export const state = () => ({
   cart: {},
-  products: []
+  cart_products: []
 })
 
 export const getters = {
@@ -10,8 +11,11 @@ export const getters = {
 }
 
 export const mutations = {
-  SET_CART: (state, payload) => 
+  SET_CART: (state, payload) =>
     state.cart = payload,
+  
+  SET_CART_PRODUCTS: (state, payload) => 
+    state.cart_products = payload,
 
   REMOVE_CART: (state, payload) => {
     const index = state.cart.findIndex(d => d.id == payload)
@@ -31,9 +35,11 @@ export const actions = {
    */
   async fetchAll({ commit }) {
     try {
-      const data = await this.$axios.$get('/api/cart')
+      const cart = this.$auth.user?.cart
+      const cartProducts = this.$auth.user?.cart_products
 
-      commit('SET_CART', data)
+      commit('SET_CART', cart)
+      commit('SET_CART_PRODUCTS', cartProducts)
     } catch (error) {
       console.log(error)
       return await this.$helpers.notify({
@@ -64,21 +70,34 @@ export const actions = {
   },
 
   /**
-   * Add new data.
+   * Add item to shopping cart.
    * 
    * @param { Object } context 
    * @param { Object } payload 
    */
-  async create({ state, commit, dispatch }) {
+  async add({ state, commit, dispatch }, payload) {
     try {
-      await this.$axios.$post('/api/cart', state.form)
+      const item = {
+        product_id: payload.id,
+        price: payload.price
+      }
+      const data = create(item)
       
-      commit('CLEAR_FORM')
-      await this.$helpers.notify({
-        type: 'success',
-        message: 'A new cart has been added.',
-      })
-      dispatch('fetchAll')
+      // else if user is authenticated, save to DB
+      if ( this.$auth.loggedIn ) {
+        addToCart({
+          strategy: 'api',
+          data
+        })
+      }
+
+      // if not authenticated, save to local storage
+      else {
+        addToCart({
+          strategy: 'local',
+          data
+        })
+      }
     } catch (error) {
       console.log(error)
       return await this.$helpers.notify({
@@ -184,4 +203,52 @@ export const actions = {
       })
     }
   },
+}
+
+/**
+ * Adds an item to the shopping cart.
+ * 
+ * @param { Object } payload 
+ */
+const addToCart = async (payload) => {
+  // save the items into the shopping cart of a user in DB
+  if (payload.strategy === 'api') {
+    try {
+      const res = await $nuxt.$axios.get(`/api/cart/add/${payload.data.product_id}/${payload.data.quantity}`)
+      console.log('CartProduct response', res)
+    } catch (error) {
+      const statusCode = error.response.status || 500
+      if (statusCode === 500) {
+        return $nuxt.$helpers.notify({
+          type: "error",
+          message: "Can't add item to cart, it is already in your shopping cart.",
+          position: {
+            bottom: true,
+            left: true
+          }
+        })
+      }
+    }
+  }
+  
+  // only save the items in shopping cart locally
+  else if (payload.strategy === 'local') {
+    let cartProducts = JSON.parse(localStorage.getItem('cart_products'))
+    if ( !cartProducts ) {
+      localStorage.setItem('cart_products', JSON.stringify([]))
+      cartProducts = JSON.parse(localStorage.getItem('cart_products'))
+    }
+
+    cartProducts.push(payload.data)    
+    localStorage.setItem('cart_products', JSON.stringify(cartProducts))
+    console.log('CartProduct added locally', cartProducts)
+  }
+
+  return await $nuxt.$helpers.notify({
+    message: 'An item has been added to cart.',
+    position: {
+      bottom: true,
+      left: true
+    }
+  })
 }
