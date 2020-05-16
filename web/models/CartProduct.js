@@ -14,3 +14,4 @@ export const create = (data) => {
   return Object.freeze(new CardProduct(data))
 }
             
+export const getCartProducts = () => JSON.parse(localStorage.getItem('cart_products')) || []

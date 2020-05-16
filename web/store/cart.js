@@ -95,8 +95,11 @@ export const actions = {
       }
       
       await this.$helpers.notify({
-        type: 'success',
         message: 'An item has been added to cart.',
+        position: {
+          bottom: true,
+          left: true
+        }
       })
     } catch (error) {
       console.log(error)

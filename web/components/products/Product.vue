@@ -3,16 +3,19 @@
     <v-card 
       min-height="15rem"
       height="100%"
-      :elevation="hover ? '10' : '3'">
+      flat
+      tile
+      @click="addToCart(item)"
+      :elevation="hover ? '5' : ''">
       <v-img 
         :src="item.img || '/aws.png'" 
         :aspect-ratio="16/9"
         height="200"
-        style="cursor: pointer"
-        @click="$store.dispatch('cart/add', item)">
+        class="align-end"
+        style="cursor: pointer">
         <template v-slot:placeholder>
           <v-row
-            class="fill-height ma-0 primary"
+            class="fill-height ma-0 secondary"
             align="center"
             justify="center">
             <v-progress-circular 
@@ -33,15 +36,18 @@
       <v-card-subtitle>
         <v-list-item-subtitle>{{ item.small_description || 'No description available' }}</v-list-item-subtitle>
       </v-card-subtitle>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn 
-          text
-          color="primary" 
-          @click="$store.dispatch('cart/add', item)">
-          Add to Cart
-        </v-btn>
-      </v-card-actions>
+
+      <v-overlay
+        :absolute="true"
+        :opacity="0.5"
+        :value="loading"
+        z-index="0">
+        <v-progress-circular
+          indeterminate
+          color="white"
+          size="64"
+        ></v-progress-circular>
+      </v-overlay>
     </v-card>
   </v-hover>
 </template>
@@ -72,6 +78,21 @@ export default {
     price: {
       type: Number,
       default: () => 0
+    }
+  },
+
+  data: () => ({
+    loading: false
+  }),
+
+  methods: {
+    async addToCart(item) {
+      this.loading = true
+      await this.$store.dispatch('cart/add', item)
+
+      await setTimeout(async () => {
+        this.loading = false
+      }, 1500)
     }
   }
 }
