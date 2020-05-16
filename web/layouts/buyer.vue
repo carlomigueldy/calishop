@@ -117,20 +117,32 @@
         </v-toolbar>
         <v-divider></v-divider>
         <v-card-text>
-          Items
+          <ShoppingCartSide />
         </v-card-text>
+        <v-card-actions class="d-flex justify-center align-center">
+          <v-btn 
+            color="primary" 
+            depressed 
+            tile 
+            large 
+            min-width="15rem">
+            CHECKOUT
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-navigation-drawer>
   </v-app>
 </template>
 
 <script>
+import ShoppingCartSide from '@/components/cart/ShoppingCartSide'
 import Snackbar from '@/components/alerts/Snackbar'
 import Footer from '@/components/layouts/Footer'
 import SignIn from '@/components/auth/SignIn'
 
 export default {
   components: {
+    ShoppingCartSide,
     Snackbar,
     Footer,
     SignIn
