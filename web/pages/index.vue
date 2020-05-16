@@ -66,7 +66,10 @@ export default {
   }),
 
   async created() {
-    await this.fetchProducts()
+    await Promise.all([
+      this.fetchProducts(),
+      this.$store.dispatch('cart/fetchAll')
+    ])
   },
 
   components: {
