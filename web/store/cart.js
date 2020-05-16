@@ -93,14 +93,6 @@ export const actions = {
           data
         })
       }
-      
-      await this.$helpers.notify({
-        message: 'An item has been added to cart.',
-        position: {
-          bottom: true,
-          left: true
-        }
-      })
     } catch (error) {
       console.log(error)
       return await this.$helpers.notify({
@@ -216,8 +208,22 @@ export const actions = {
 const addToCart = async (payload) => {
   // save the items into the shopping cart of a user in DB
   if (payload.strategy === 'api') {
-    const res = await $nuxt.$axios.get(`/api/cart/add/${payload.data.product_id}/${payload.data.quantity}`)
-    console.log('CartProduct response', res)
+    try {
+      const res = await $nuxt.$axios.get(`/api/cart/add/${payload.data.product_id}/${payload.data.quantity}`)
+      console.log('CartProduct response', res)
+    } catch (error) {
+      const statusCode = error.response.status || 500
+      if (statusCode === 500) {
+        return $nuxt.$helpers.notify({
+          type: "error",
+          message: "Can't add item to cart, it is already in your shopping cart.",
+          position: {
+            bottom: true,
+            left: true
+          }
+        })
+      }
+    }
   }
   
   // only save the items in shopping cart locally
@@ -232,4 +238,12 @@ const addToCart = async (payload) => {
     localStorage.setItem('cart_products', JSON.stringify(cartProducts))
     console.log('CartProduct added locally', cartProducts)
   }
+
+  return await $nuxt.$helpers.notify({
+    message: 'An item has been added to cart.',
+    position: {
+      bottom: true,
+      left: true
+    }
+  })
 }
