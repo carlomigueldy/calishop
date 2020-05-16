@@ -1,6 +1,6 @@
 <template>
   <v-app app>
-    <v-app-bar app>
+    <v-app-bar dense app>
       <v-toolbar-title 
         @click="$router.push({ name: 'index' })" 
         class="cursive"
