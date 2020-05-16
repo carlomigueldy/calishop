@@ -28,7 +28,7 @@
         <v-col 
           lg="3"
           md="3"
-          sm="12"
+          sm="6"
           cols="12"
           v-for="(item, i) in products.data"
           :key="i">

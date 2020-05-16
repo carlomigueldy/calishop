@@ -49,7 +49,12 @@ class AuthController extends Controller
         
         $user['role'] = array_shift($roles);
         $user['cart'] = $user->cart;
-        $user['cart_products'] = $user->cart->items;
+        $user['cart_products'] = $user->cart->items->map(function ($data) {
+            $data['product_img'] = $data->product->media->first()->getUrl();
+            $data['product_name'] = $data->product->name;
+
+            return $data;
+        });
         
         return response()->json($user);
     }
