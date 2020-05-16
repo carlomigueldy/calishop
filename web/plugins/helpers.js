@@ -9,8 +9,17 @@ export default ({ app, store }, inject) => {
      * @param { Object } 
      * @returns { Void }
      */
-    notify ({ message = '', type = '' }) {
-      store.dispatch('alerts/execute', { message, type })
+    notify ({ 
+      message = '', 
+      type = '', 
+      position = {
+        top: true,
+        bottom: false,
+        right: false,
+        left: false
+      } 
+    } = {}) {
+      store.dispatch('alerts/execute', { message, type, position })
     },
 
     // Add more ...
