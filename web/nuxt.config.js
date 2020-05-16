@@ -21,7 +21,7 @@ export default {
   */
   loading: { 
     height: '3px',
-    color: colors.lightBlue.darken4,
+    color: colors.blue.darken2,
     throttle: 0,
     continuous: true,
   },
