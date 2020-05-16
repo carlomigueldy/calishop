@@ -53,7 +53,6 @@
 
         <v-overlay
           :absolute="true"
-          :opacity="0.5"
           :value="overlay"
           z-index="0">
           <v-btn 
@@ -154,12 +153,12 @@ export default {
 </script>
 
 <style scoped>
-.v-card--reveal {
+/* .v-card--reveal {
   align-items: center;
   bottom: 0;
   justify-content: center;
   opacity: .5;
   position: absolute;
   width: 100%;
-}
+} */
 </style>
