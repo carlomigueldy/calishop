@@ -41,7 +41,7 @@
           offset-y>
           <template v-slot:activator="{ on }">
             <v-btn title="Account" v-on="on" icon>
-              <v-avatar>
+              <v-avatar size="35">
                 <v-img src="/aws.png"></v-img>
               </v-avatar>
             </v-btn>
