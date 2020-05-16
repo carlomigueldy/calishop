@@ -1,55 +1,76 @@
 <template>
-  <v-hover v-slot:default="{ hover }">
-    <v-card 
-      min-height="15rem"
-      height="100%"
-      flat
-      tile
-      @click="addToCart(item)"
-      :elevation="hover ? '5' : ''">
-      <v-img 
-        :src="item.img || '/aws.png'" 
-        :aspect-ratio="16/9"
-        height="200"
-        class="align-end"
-        style="cursor: pointer">
-        <template v-slot:placeholder>
-          <v-row
-            class="fill-height ma-0 secondary"
-            align="center"
-            justify="center">
-            <v-progress-circular 
-              indeterminate 
-              color="grey lighten-5"
-            ></v-progress-circular>
-          </v-row>
-        </template>
+  <div>
+    <v-hover v-slot:default="{ hover }">
+      <v-card 
+        min-height="15rem"
+        height="100%"
+        flat
+        tile
+        @click="show"
+        :elevation="hover ? '5' : ''">
+        <v-img 
+          :src="item.img || '/aws.png'" 
+          :aspect-ratio="16/9"
+          height="200"
+          class="align-end"
+          style="cursor: pointer">
+          <template v-slot:placeholder>
+            <v-row
+              class="fill-height ma-0 secondary"
+              align="center"
+              justify="center">
+              <v-progress-circular 
+                indeterminate 
+                color="grey lighten-5"
+              ></v-progress-circular>
+            </v-row>
+          </template>
+          <v-card-title>
+            <v-chip color="primary" dark label>
+              {{ moneyFormat(item.price) }}
+            </v-chip>
+          </v-card-title>
+        </v-img>
         <v-card-title>
-          <v-chip color="primary" dark label>
-            {{ moneyFormat(item.price) }}
-          </v-chip>
+          <v-list-item-title>{{ item.name || 'Not specified' }}</v-list-item-title>
         </v-card-title>
-      </v-img>
-      <v-card-title>
-        <v-list-item-title>{{ item.name || 'Not specified' }}</v-list-item-title>
-      </v-card-title>
-      <v-card-subtitle>
-        <v-list-item-subtitle>{{ item.small_description || 'No description available' }}</v-list-item-subtitle>
-      </v-card-subtitle>
+        <v-card-subtitle>
+          <v-list-item-subtitle>{{ item.small_description || 'No description available' }}</v-list-item-subtitle>
+        </v-card-subtitle>
 
-      <v-overlay
-        :absolute="true"
-        :opacity="0.5"
-        :value="loading"
-        z-index="0">
-        <v-progress-circular
-          indeterminate
-          color="white"
-          size="64"
-        ></v-progress-circular>
-      </v-overlay>
-    </v-card>
-  </v-hover>
+        <v-overlay
+          :absolute="true"
+          :opacity="0.5"
+          :value="loading"
+          z-index="0">
+          <v-progress-circular
+            indeterminate
+            color="white"
+            size="64"
+          ></v-progress-circular>
+        </v-overlay>
+      </v-card>
+    </v-hover>
+    <v-menu 
+      v-model="menu"
+      :position-x="x"
+      :position-y="y"
+      absolute
+      offset-y>
+      <v-list>
+        <v-list-item @click="addToCart(item)">
+          <v-list-item-title>
+            Add to cart
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-title>
+            Add to wishlist
+          </v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+  </div>
 </template>
 
 <script>
@@ -82,10 +103,23 @@ export default {
   },
 
   data: () => ({
-    loading: false
+    loading: false,
+    menu: false,
+    x: 0,
+    y: 0
   }),
 
   methods: {
+    show (e) {
+      e.preventDefault()
+      this.menu = false
+      this.x = e.clientX
+      this.y = e.clientY
+      this.$nextTick(() => {
+        this.menu = true
+      })
+    },
+    
     async addToCart(item) {
       this.loading = true
       await this.$store.dispatch('cart/add', item)
