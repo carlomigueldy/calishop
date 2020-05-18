@@ -35,8 +35,8 @@ export const actions = {
    */
   async fetchAll({ commit }) {
     try {
-      const cart = this.$auth.user?.cart
-      const cartProducts = this.$auth.user?.cart_products
+      const cart = await this.$auth.user?.cart
+      const cartProducts = await this.$auth.user?.cart_products
 
       commit('SET_CART', cart)
       commit('SET_CART_PRODUCTS', cartProducts)

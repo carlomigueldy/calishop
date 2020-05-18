@@ -6,7 +6,7 @@
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text style="overflow-y: auto; height: 50vh">
-        <div>
+        <div v-if="noItems > 0">
           <v-card
             :key="i"
             class="mb-5"
@@ -87,11 +87,15 @@ import { mapMultiRowFields } from 'vuex-map-fields'
 export default {
   computed: {
     subTotal () {
+      if ( !(this.noItems > 0) ) {
+        return 0
+      }
+      
       return this.cart_products.map(item => item.price * item.quantity).reduce((a, b) => a + b)
     },
 
     noItems () {
-      return this.cart_products.length
+      return this.cart_products != null ? this.cart_products.length : 0
     },
     
     ...mapMultiRowFields('cart', [

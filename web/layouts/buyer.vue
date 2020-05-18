@@ -117,7 +117,7 @@
         </v-toolbar>
         <v-divider></v-divider>
         <v-card-text>
-          <ShoppingCartSide />
+          <ShoppingCartSide v-if="$auth.loggedIn && $store.state.cart.cart_products" />
         </v-card-text>
         <v-card-actions class="d-flex justify-center align-center">
           <v-btn 
